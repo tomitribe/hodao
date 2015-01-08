@@ -62,6 +62,20 @@
       <scope>test</scope>
     </dependency>
  </dependencies>
+ 
+ <distributionManagement>
+   <repository>
+     <id>tomitribe.releases.https</id>
+     <name>Tomitribe Release Distribution Repository</name>
+     <url>http://repository.tomitribe.com/content/repositories/releases-tomitribe</url>
+   </repository>
+
+   <snapshotRepository>
+     <id>tomitribe.snapshots.https</id>
+     <name>Tomitribe Development Snapshot Repository</name>
+     <url>http://repository.tomitribe.com/content/repositories/snapshots-tomitribe</url>
+   </snapshotRepository>
+ </distributionManagement>
 
   <build>
     <plugins>
