@@ -14,7 +14,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.tomitribe.drycrud.persistence;
+package org.tomitribe.hodaor;
+
+import org.tomitribe.hodaor.impl.PersistenceHandler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -39,8 +41,8 @@ public abstract class BookCrud implements InvocationHandler {
     @NamedQuery(Book.FIND_BY_TITLE)
     @Optional
     public abstract List<Book> findBooksByTitle(
-            @QueryParam("title") final String title, 
-            @Offset final Integer offset, 
+            @QueryParam("title") final String title,
+            @Offset final Integer offset,
             @MaxResults final Integer max);
 
     @NamedQuery(Book.FIND_ALL)

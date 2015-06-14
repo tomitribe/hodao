@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.tomitribe.drycrud.persistence;
+package org.tomitribe.hodaor.impl;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -23,8 +23,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import org.tomitribe.drycrud.util.Parameter;
-import org.tomitribe.drycrud.util.Reflection;
+import org.tomitribe.hodaor.Find;
+import org.tomitribe.hodaor.MaxResults;
+import org.tomitribe.hodaor.Merge;
+import org.tomitribe.hodaor.NamedQuery;
+import org.tomitribe.hodaor.Offset;
+import org.tomitribe.hodaor.Optional;
+import org.tomitribe.hodaor.Persist;
+import org.tomitribe.hodaor.QueryParam;
+import org.tomitribe.hodaor.Remove;
+import org.tomitribe.hodaor.ValidationException;
+import org.tomitribe.hodaor.util.Parameter;
+import org.tomitribe.hodaor.util.Reflection;
 
 /**
  * Beautiful Source of DRY CRUD
