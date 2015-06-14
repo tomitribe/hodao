@@ -19,8 +19,8 @@ package org.tomitribe.hodaor;
 import javax.ejb.ApplicationException;
 
 /**
-* @version $Revision$ $Date$
-*/
+ * @version $Revision$ $Date$
+ */
 @ApplicationException(rollback = true)
 public class ValidationException extends RuntimeException {
 

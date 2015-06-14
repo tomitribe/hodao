@@ -22,10 +22,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
-* @version $Revision$ $Date$
-*/
+ * @version $Revision$ $Date$
+ */
 public class Reflection {
-    
+
     private Reflection() {
     }
 
@@ -46,7 +46,7 @@ public class Reflection {
                         if (!hasNext()) {
                             throw new NoSuchElementException();
                         }
-                        
+
                         return new Parameter(method.getParameterAnnotations()[index], method.getParameterTypes()[index], values[index++]);
                     }
 
@@ -76,7 +76,7 @@ public class Reflection {
                         if (!hasNext()) {
                             throw new NoSuchElementException();
                         }
-                        
+
                         return new Parameter(constructor.getParameterAnnotations()[index], constructor.getParameterTypes()[index], values[index++]);
                     }
 

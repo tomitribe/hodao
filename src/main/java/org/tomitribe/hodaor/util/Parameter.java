@@ -20,8 +20,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
 /**
-* @version $Revision$ $Date$
-*/
+ * @version $Revision$ $Date$
+ */
 public class Parameter implements AnnotatedElement {
 
     private final Annotation[] annotations;
@@ -46,7 +46,7 @@ public class Parameter implements AnnotatedElement {
     @Override
     public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
         for (Annotation annotation : annotations) {
-            if (annotationClass.equals(annotation.annotationType())) { 
+            if (annotationClass.equals(annotation.annotationType())) {
                 return (T) annotation;
             }
         }

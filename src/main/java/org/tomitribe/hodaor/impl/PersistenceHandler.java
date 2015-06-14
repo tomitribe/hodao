@@ -16,13 +16,6 @@
  */
 package org.tomitribe.hodaor.impl;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-
 import org.tomitribe.hodaor.Find;
 import org.tomitribe.hodaor.MaxResults;
 import org.tomitribe.hodaor.Merge;
@@ -36,9 +29,15 @@ import org.tomitribe.hodaor.ValidationException;
 import org.tomitribe.hodaor.util.Parameter;
 import org.tomitribe.hodaor.util.Reflection;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import java.lang.reflect.Method;
+import java.util.Collection;
+
 /**
  * Beautiful Source of DRY CRUD
- *
+ * <p/>
  * DRY: Don't Repeat Yourself CRUD: Create Read Update Delete
  *
  * @version $Revision$ $Date$
@@ -85,7 +84,7 @@ public class PersistenceHandler {
 
     /**
      * CREATE
-     *
+     * <p/>
      * Persist the specified entity
      *
      * @param em
@@ -109,7 +108,7 @@ public class PersistenceHandler {
 
     /**
      * READ:
-     *
+     * <p/>
      * Find an entity by primary key
      *
      * @param em
@@ -130,7 +129,7 @@ public class PersistenceHandler {
 
     /**
      * READ:
-     *
+     * <p/>
      * Execute a NamedQuery
      *
      * @param em
@@ -200,7 +199,7 @@ public class PersistenceHandler {
 
     /**
      * UPDATE
-     *
+     * <p/>
      * Perform a merge on the passed in entity
      *
      * @param em
@@ -222,7 +221,7 @@ public class PersistenceHandler {
 
     /**
      * DELETE
-     *
+     * <p/>
      * Remove the specified entity
      *
      * @param em
@@ -246,7 +245,7 @@ public class PersistenceHandler {
 
     /**
      * Is the return value a list?
-     * 
+     *
      * @param method
      * @return
      */
@@ -256,7 +255,7 @@ public class PersistenceHandler {
 
     /**
      * Is the specified type an int?
-     * 
+     *
      * @param clazz
      * @return
      */
@@ -266,7 +265,7 @@ public class PersistenceHandler {
 
     /**
      * Is the specified type void?
-     * 
+     *
      * @param clazz
      * @return
      */
