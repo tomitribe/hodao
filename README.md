@@ -4,6 +4,8 @@
 
 *... other letters added for fun.  HODOR!*
 
+Requires Apache TomEE 1.5.x or newer.
+
 ## Description
 
 Hodaor takes advantage of Apache TomEE's abstract-bean concept.  The DAO is declared abstract and boilerplate methods can be simply annotated and handled by the framework.  Unlike purely interface-based approaches, this still allows you to use plain Java code for persistence logic that falls outside what the framework handles.
@@ -45,7 +47,6 @@ From here you can leverage the following annotations to abstract out common `jav
 
 All of which map to their simple JPA `EntityManager` equivalent.
 
-
 ### @Persist for `EntityManager.persist`
 
 Valid examples of `@Persist` include:
@@ -62,14 +63,14 @@ Valid examples of `@Persist` include:
 
 ````
     public static Object persist(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Iterable<Parameter> params = Reflection.params(method, args);
-        final Parameter parameter = params.iterator().next();
+        final Class<?> entityClass = method.getReturnType();
+        final Object entity = args[0];
 
-        if (parameter.getValue() == null) {
-            throw new ValidationException(parameter.getType().getSimpleName() + " object is null");
+        if (entity == null) {
+            throw new ValidationException(entityClass.getSimpleName() + " object is null");
         }
 
-        em.persist(parameter.getValue());
+        em.persist(entity);
 
         if (isVoid(method.getReturnType())) {
 
@@ -77,14 +78,10 @@ Valid examples of `@Persist` include:
 
         } else {
 
-            return parameter.getValue();
-
+            return entity;
         }
     }
 ````
-Performs a null check on `Book` followed by a `em.persist(book);`
-
-If `Book` is null a `org.tomitribe.hodaor.ValidationException`
 
 ### @Merge for `EntityManager.merge`
 
@@ -98,23 +95,80 @@ Valid examples of `@Merge` include:
     public abstract Color update(final Color color);
 ````
 
-Performs a null check on `Book` followed by a `em.merge(book);`
+`@Merge` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
 
-If `Book` is null a `org.tomitribe.hodaor.ValidationException`
+````
+    public static Object merge(final EntityManager em, final Method method, final Object[] args) throws Throwable {
+        final Class<?> entityClass = method.getReturnType();
+        final Object entity = args[0];
+
+        if (entity == null) {
+            throw new ValidationException(entityClass.getSimpleName() + " object is null");
+        }
+
+        return em.merge(entity);
+    }
+````
 
 ### @Find for `EntityManager.find`
 
 Valid examples of `@Find` include:
 
 ````
-    @Merge
-    public abstract Book update(final Book book);
+    @Find
+    public abstract Book find(final Long bookId);
 
-    @Merge
-    public abstract Color update(final Color color);
+    @Find
+    public abstract Author whoIsThis(final long authorId);
+
+    @Find
+    public abstract Cover giveMe(final int coverId);
+
+    @Find
+    public abstract Color lookFor(final ColorID customPrimaryKey);
 ````
 
-Performs a null check on `Book` followed by a `em.merge(book);`
+`@Find` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
 
-If `Book` is null a `org.tomitribe.hodaor.ValidationException`
+````
+    public static Object findByPrimaryKey(final EntityManager em, final Method method, final Object[] args) throws Throwable {
+        final Class<?> entityClass = method.getReturnType();
+        final Object primaryKey = args[0];
+
+        if (primaryKey == null) {
+            throw new ValidationException("Invalid id");
+        }
+        return em.find(entityClass, primaryKey);
+    }
+````
+
+
+### @Remove for `EntityManager.remove`
+
+Valid examples of `@Remove` include:
+
+````
+    @Remove
+    public abstract void delete(final Book book);
+
+    @Remove
+    public abstract void rottenTomatoes(final Movie movie);
+````
+
+`@Remove` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
+
+````
+    public static Object remove(final EntityManager em, final Method method, final Object[] args) throws Throwable {
+        final Class<?> entityClass = method.getReturnType();
+        final Object entity = args[0];
+
+        if (entity == null) {
+            throw new ValidationException(entityClass.getSimpleName() + " object is null");
+        }
+
+        em.remove(em.merge(entity));
+
+        return null;
+    }
+````
 
