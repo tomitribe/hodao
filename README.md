@@ -37,28 +37,26 @@ public abstract class BookCrud implements InvocationHandler {
 
 From here you can leverage the following annotations to abstract out common `javax.persistence.EntityManager` boilerplate.
 
-- 
+- `org.tomitribe.hodaor.Find`
+- `org.tomitribe.hodaor.Merge`
+- `org.tomitribe.hodaor.Persist`
+- `org.tomitribe.hodaor.Remove`
+- `org.tomitribe.hodaor.NamedQuery`
+
+All of which map to their simple JPA `EntityManager` equivalent.
+
 
 ### @Persist for `EntityManager.persist`
-
-The following common boilerplate
-
-````
-    public void create(final Book book) {
-        if (book == null) {
-            throw new ValidationException("Book object is null");
-        }
-
-        em.persist(book);
-    }
-````
-
-Can be replaced with a simple:
 
 ````
     @Persist
     public abstract Book create(final Book book);
+
 ````
+
+Performs a null check on `Book` followed by a `em.persist(book);`
+
+If `Book` is null a `org.tomitribe.hodaor.ValidationException`
 
 ### @Merge for `EntityManager.merge`
 
