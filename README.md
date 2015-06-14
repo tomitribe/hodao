@@ -4,11 +4,11 @@
 
 *... other letters added for fun.  HODOR!*
 
-# Description
+## Description
 
 Hodaor takes advantage of Apache TomEE's abstract-bean concept.  The DAO is declared abstract and boilerplate methods can be simply annotated and handled by the framework.  Unlike purely interface-based approaches, this still allows you to use plain Java code for persistence logic that falls outside what the framework handles.
 
-# Usage
+## Usage
 
 To use, simply declare your EJB as abstract and implement `java.lang.reflect.InvocationHandler` as follows.
 
@@ -35,5 +35,71 @@ public abstract class BookCrud implements InvocationHandler {
 }
 ````
 
-From here you can leverage the following annotations:
+From here you can leverage the following annotations to abstract out common `javax.persistence.EntityManager` boilerplate.
+
+- 
+
+### @Persist for `EntityManager.persist`
+
+The following common boilerplate
+
+````
+    public void create(final Book book) {
+        if (book == null) {
+            throw new ValidationException("Book object is null");
+        }
+
+        em.persist(book);
+    }
+````
+
+Can be replaced with a simple:
+
+````
+    @Persist
+    public abstract Book create(final Book book);
+````
+
+### @Merge for `EntityManager.merge`
+
+The following common boilerplate
+
+````
+    public Book update(final Book book) {
+        if (book == null) {
+            throw new ValidationException("Book object is null");
+        }
+
+        return em.merge(book);
+    }
+````
+
+Can be replaced with a simple:
+
+````
+    @Merge
+    public abstract Book update(final Book book);
+````
+
+### @Find for `EntityManager.find`
+
+The following common boilerplate
+
+````
+    public Book find(final Book book) {
+        if (book == null) {
+            throw new ValidationException("Book object is null");
+        }
+
+        return em.merge(book);
+    }
+````
+
+Can be replaced with a simple:
+
+````
+    @Merge
+    public abstract Book update(final Book book);
+````
+
 
