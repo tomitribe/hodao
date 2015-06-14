@@ -48,56 +48,73 @@ All of which map to their simple JPA `EntityManager` equivalent.
 
 ### @Persist for `EntityManager.persist`
 
+Valid examples of `@Persist` include:
+
 ````
     @Persist
     public abstract Book create(final Book book);
 
+    @Persist
+    public abstract void anotherAwesomeMovie(final Movie movie);
 ````
 
+`@Persist` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
+
+````
+    public static Object persist(final EntityManager em, final Method method, final Object[] args) throws Throwable {
+        final Iterable<Parameter> params = Reflection.params(method, args);
+        final Parameter parameter = params.iterator().next();
+
+        if (parameter.getValue() == null) {
+            throw new ValidationException(parameter.getType().getSimpleName() + " object is null");
+        }
+
+        em.persist(parameter.getValue());
+
+        if (isVoid(method.getReturnType())) {
+
+            return null;
+
+        } else {
+
+            return parameter.getValue();
+
+        }
+    }
+````
 Performs a null check on `Book` followed by a `em.persist(book);`
 
 If `Book` is null a `org.tomitribe.hodaor.ValidationException`
 
 ### @Merge for `EntityManager.merge`
 
-The following common boilerplate
-
-````
-    public Book update(final Book book) {
-        if (book == null) {
-            throw new ValidationException("Book object is null");
-        }
-
-        return em.merge(book);
-    }
-````
-
-Can be replaced with a simple:
+Valid examples of `@Merge` include:
 
 ````
     @Merge
     public abstract Book update(final Book book);
+
+    @Merge
+    public abstract Color update(final Color color);
 ````
+
+Performs a null check on `Book` followed by a `em.merge(book);`
+
+If `Book` is null a `org.tomitribe.hodaor.ValidationException`
 
 ### @Find for `EntityManager.find`
 
-The following common boilerplate
-
-````
-    public Book find(final Book book) {
-        if (book == null) {
-            throw new ValidationException("Book object is null");
-        }
-
-        return em.merge(book);
-    }
-````
-
-Can be replaced with a simple:
+Valid examples of `@Find` include:
 
 ````
     @Merge
     public abstract Book update(final Book book);
+
+    @Merge
+    public abstract Color update(final Color color);
 ````
 
+Performs a null check on `Book` followed by a `em.merge(book);`
+
+If `Book` is null a `org.tomitribe.hodaor.ValidationException`
 
