@@ -139,8 +139,52 @@ public class PersistenceHandler {
      * @throws Throwable
      */
     public static Object invokeNamedQuery(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final boolean optional = method.getAnnotation(Optional.class) != null;
         final NamedQuery namedQuery = method.getAnnotation(NamedQuery.class);
+
+        if (namedQuery.update()) {
+
+            return update(em, method, args, namedQuery);
+
+        } else {
+
+            return select(em, method, args, namedQuery);
+        }
+    }
+
+    private static Object update(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
+
+        final Query query = em.createNamedQuery(namedQuery.value());
+
+        for (final Parameter parameter : Reflection.params(method, args)) {
+            final QueryParam queryParam = parameter.getAnnotation(QueryParam.class);
+            if (queryParam != null) {
+                if (parameter.getValue() == null) {
+                    throw new ValidationException(queryParam.value() + " is null");
+                }
+
+                query.setParameter(queryParam.value(), parameter.getValue());
+            }
+        }
+
+        if (isInt(method.getReturnType())) {
+
+            return query.executeUpdate();
+
+        } else if (isVoid(method.getReturnType())) {
+
+            query.executeUpdate();
+
+            return null;
+
+        } else {
+
+            throw new IllegalArgumentException("Update methods must have a void or int return type");
+        }
+    }
+
+    private static Object select(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
+
+        final boolean optional = method.getAnnotation(Optional.class) != null;
 
         final Query query = em.createNamedQuery(namedQuery.value());
 
@@ -174,18 +218,9 @@ public class PersistenceHandler {
         }
 
         try {
-            if (namedQuery.update()) {
-                final int recordsUpdated = query.executeUpdate();
-                if (isInt(method.getReturnType())) {
-                    return recordsUpdated;
-                } else if (isVoid(method.getReturnType())) {
-                    return null;
-                } else {
-                    throw new IllegalArgumentException("Update methods must have a void or int return type");
-                }
-            } else {
-                return (isList(method)) ? query.getResultList() : query.getSingleResult();
-            }
+
+            return (isList(method)) ? query.getResultList() : query.getSingleResult();
+
         } catch (final NoResultException e) {
 
             // if we don't require that this actually returns a value, we can return null
