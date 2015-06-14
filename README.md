@@ -71,7 +71,7 @@ import java.util.List;
 
 @Singleton
 @Lock(LockType.READ)
-public abstract class BookCrud implements InvocationHandler {
+public abstract class BookDao implements InvocationHandler {
 
     @PersistenceContext
     private EntityManager em;
