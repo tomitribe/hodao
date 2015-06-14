@@ -47,6 +47,59 @@ From here you can leverage the following annotations to abstract out common `jav
 
 All of which map to their simple JPA `EntityManager` equivalent.
 
+### Simple example
+
+````
+import org.tomitribe.hodaor.Find;
+import org.tomitribe.hodaor.MaxResults;
+import org.tomitribe.hodaor.Merge;
+import org.tomitribe.hodaor.NamedQuery;
+import org.tomitribe.hodaor.Offset;
+import org.tomitribe.hodaor.Optional;
+import org.tomitribe.hodaor.Persist;
+import org.tomitribe.hodaor.QueryParam;
+import org.tomitribe.hodaor.impl.PersistenceHandler;
+
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.List;
+
+@Singleton
+@Lock(LockType.READ)
+public abstract class BookCrud implements InvocationHandler {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Persist
+    public abstract Book create(final Book book);
+
+    @Merge
+    public abstract Book update(final Book book);
+
+    @Find
+    public abstract Book find(Long id);
+
+    @NamedQuery(Book.FIND_BY_TITLE)
+    @Optional
+    public abstract List<Book> findBooksByTitle(@QueryParam("title") final String title);
+
+    @NamedQuery(Book.FIND_ALL)
+    @Optional
+    public abstract List<Book> findAll(@Offset final Integer offset, @MaxResults final Integer max);
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return PersistenceHandler.invoke(this.em, method, args);
+    }
+}
+````
+
 ### @Persist for `EntityManager.persist`
 
 Valid examples of `@Persist` include:
@@ -171,6 +224,8 @@ Valid examples of `@Remove` include:
         return null;
     }
 ````
+
+### @NamedQuery for `Query.getResultList` or  `Query.getSingleResult`
 
 
 
