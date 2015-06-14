@@ -103,7 +103,15 @@ public class PersistenceHandler {
 
         em.persist(parameter.getValue());
 
-        return parameter.getValue();
+        if (isVoid(method.getReturnType())) {
+
+            return null;
+
+        } else {
+
+            return parameter.getValue();
+
+        }
     }
 
     /**

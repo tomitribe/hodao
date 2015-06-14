@@ -37,6 +37,9 @@ public abstract class BookCrud implements InvocationHandler {
     @Persist
     public abstract Book create(final Book book);
 
+    @Persist
+    public abstract void createVoid(final Book book);
+
     @Merge
     public abstract Book update(final Book book);
 

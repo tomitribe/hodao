@@ -112,6 +112,27 @@ public class PersistenceHandlerTest {
     }
 
     @Test
+    public void testPersistWithVoidReturn() throws Exception {
+        final Book book1 = new Book();
+
+        book1.setAuthor("Author");
+        book1.setTitle("Title");
+        book1.setYear(2014L);
+
+        crud.createVoid(book1);
+
+        final List<Book> allBooks = crud.findAll(0, 50);
+        Assert.assertNotNull(allBooks);
+        Assert.assertEquals(1, allBooks.size());
+
+        final Book book = allBooks.get(0);
+        Assert.assertEquals("Author", book.getAuthor());
+        Assert.assertEquals("Title", book.getTitle());
+        Assert.assertNotNull(book.getId());
+        Assert.assertEquals(new Long(2014), book.getYear());
+    }
+
+    @Test
     public void testMerge() throws Exception {
         final Book book1 = new Book();
 
@@ -234,7 +255,7 @@ public class PersistenceHandlerTest {
         book1.setTitle("Title");
         book1.setYear(2014L);
 
-        book1 = crud.create(book1);
+        crud.create(book1);
 
         final Book retrievedBook = crud.find(book1.getId());
         Assert.assertEquals(book1.getId(), retrievedBook.getId());
@@ -251,7 +272,7 @@ public class PersistenceHandlerTest {
         book1.setTitle("Title");
         book1.setYear(2014L);
 
-        book1 = crud.create(book1);
+        crud.create(book1);
 
         final Book retrievedBook = crud.findById(book1.getId());
         Assert.assertEquals(book1.getId(), retrievedBook.getId());
