@@ -94,14 +94,14 @@ public class PersistenceHandler {
      * @throws Throwable
      */
     public static Object persist(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Iterable<Parameter> params = Reflection.params(method, args);
-        final Parameter parameter = params.iterator().next();
+        final Class<?> entityClass = method.getParameterTypes()[0];
+        final Object entity = args[0];
 
-        if (parameter.getValue() == null) {
-            throw new ValidationException(parameter.getType().getSimpleName() + " object is null");
+        if (entity == null) {
+            throw new ValidationException(entityClass.getSimpleName() + " object is null");
         }
 
-        em.persist(parameter.getValue());
+        em.persist(entity);
 
         if (isVoid(method.getReturnType())) {
 
@@ -109,8 +109,7 @@ public class PersistenceHandler {
 
         } else {
 
-            return parameter.getValue();
-
+            return entity;
         }
     }
 
@@ -159,7 +158,7 @@ public class PersistenceHandler {
         }
     }
 
-    private static Object update(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
+    public static Object update(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
 
         final Query query = em.createNamedQuery(namedQuery.value());
 
@@ -190,7 +189,7 @@ public class PersistenceHandler {
         }
     }
 
-    private static Object select(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
+    public static Object select(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
 
         final boolean optional = method.getAnnotation(Optional.class) != null;
 
@@ -252,14 +251,14 @@ public class PersistenceHandler {
      * @throws Throwable
      */
     public static Object merge(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Iterable<Parameter> params = Reflection.params(method, args);
-        final Parameter parameter = params.iterator().next();
+        final Class<?> entityClass = method.getParameterTypes()[0];
+        final Object entity = args[0];
 
-        if (parameter.getValue() == null) {
-            throw new ValidationException(parameter.getType().getSimpleName() + " object is null");
+        if (entity == null) {
+            throw new ValidationException(entityClass.getSimpleName() + " object is null");
         }
 
-        return em.merge(parameter.getValue());
+        return em.merge(entity);
     }
 
     /**
@@ -274,14 +273,14 @@ public class PersistenceHandler {
      * @throws Throwable
      */
     public static Object remove(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Iterable<Parameter> params = Reflection.params(method, args);
-        final Parameter parameter = params.iterator().next();
+        final Class<?> entityClass = method.getParameterTypes()[0];
+        final Object entity = args[0];
 
-        if (parameter.getValue() == null) {
-            throw new ValidationException(parameter.getType().getSimpleName() + " object is null");
+        if (entity == null) {
+            throw new ValidationException(entityClass.getSimpleName() + " object is null");
         }
 
-        em.remove(em.merge(parameter.getValue()));
+        em.remove(em.merge(entity));
 
         return null;
     }
