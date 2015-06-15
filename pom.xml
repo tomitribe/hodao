@@ -33,6 +33,14 @@
   <artifactId>hodao</artifactId>
   <version>0.5-SNAPSHOT</version>
 
+
+  <scm>
+    <connection>scm:git:git@github.com:tomitribe/hodao.git</connection>
+    <url>scm:git:git@github.com:tomitribe/hodao.git</url>
+    <developerConnection>scm:git:git@github.com:tomitribe/hodao.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
   <properties>
     <version.java>1.6</version.java>
     <version.junit>4.11</version.junit>
