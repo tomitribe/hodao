@@ -6,7 +6,7 @@ Hodor hodor hodor persist. Hodor hodor hodor merge.  Hodor hodor hodor delete.  
 
 Hodao takes advantage of Apache TomEE's abstract-bean concept.  The DAO is declared abstract and boilerplate methods can be simply annotated and handled by the framework.  Unlike purely interface-based approaches, this still allows you to use plain Java code for persistence logic that falls outside what the framework handles.
 
-Hodao is an extremely simple and small library.  All the guts are in [https://github.com/tomitribe/hodao/blob/master/src/main/java/org/tomitribe/hodao/impl/PersistenceHandler.java](PersistenceHandler).  Use as-is or consider it a jumpstart to writing your own helper API.  The power of simple code is that you can bend it to fit your need -- not the other way around.  Forking heavily encouraged!
+Hodao is an extremely simple and small library.  All the guts are in [PersistenceHandler](https://github.com/tomitribe/hodao/blob/master/src/main/java/org/tomitribe/hodao/impl/PersistenceHandler.java).  Use as-is or consider it a jumpstart to writing your own helper API.  The power of simple code is that you can bend it to fit your need -- not the other way around.  Forking heavily encouraged!
 
 Requires Apache TomEE 1.5.x or newer.
 
