@@ -111,29 +111,6 @@ Valid examples of `@Persist` include:
     public abstract void anotherAwesomeMovie(final Movie movie);
 ````
 
-`@Persist` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
-
-````
-    public static Object persist(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Class<?> entityClass = method.getReturnType();
-        final Object entity = args[0];
-
-        if (entity == null) {
-            throw new ValidationException(entityClass.getSimpleName() + " object is null");
-        }
-
-        em.persist(entity);
-
-        if (isVoid(method.getReturnType())) {
-
-            return null;
-
-        } else {
-
-            return entity;
-        }
-    }
-````
 
 ### @Merge for `EntityManager.merge`
 
@@ -145,21 +122,6 @@ Valid examples of `@Merge` include:
 
     @Merge
     public abstract Color update(final Color color);
-````
-
-`@Merge` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
-
-````
-    public static Object merge(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Class<?> entityClass = method.getReturnType();
-        final Object entity = args[0];
-
-        if (entity == null) {
-            throw new ValidationException(entityClass.getSimpleName() + " object is null");
-        }
-
-        return em.merge(entity);
-    }
 ````
 
 ### @Find for `EntityManager.find`
@@ -180,21 +142,6 @@ Valid examples of `@Find` include:
     public abstract Color lookFor(final ColorID customPrimaryKey);
 ````
 
-`@Find` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
-
-````
-    public static Object findByPrimaryKey(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Class<?> entityClass = method.getReturnType();
-        final Object primaryKey = args[0];
-
-        if (primaryKey == null) {
-            throw new ValidationException("Invalid id");
-        }
-        return em.find(entityClass, primaryKey);
-    }
-````
-
-
 ### @Remove for `EntityManager.remove`
 
 Valid examples of `@Remove` include:
@@ -206,23 +153,3 @@ Valid examples of `@Remove` include:
     @Remove
     public abstract void rottenTomatoes(final Movie movie);
 ````
-
-`@Remove` methods are effectively backed by the following boilerplate code in `PersistenceHandler`:
-
-````
-    public static Object remove(final EntityManager em, final Method method, final Object[] args) throws Throwable {
-        final Class<?> entityClass = method.getReturnType();
-        final Object entity = args[0];
-
-        if (entity == null) {
-            throw new ValidationException(entityClass.getSimpleName() + " object is null");
-        }
-
-        em.remove(em.merge(entity));
-
-        return null;
-    }
-````
-
-
-
