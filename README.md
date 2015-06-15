@@ -1,21 +1,19 @@
-# Hodaor
+# Hodao
 
-**H**elper library for **DAO**s
+Helper library for DAOs.  Inspired by the great Hodor himself.  Boilerplate persistence code tends to be like him -- simple and repetitive.
 
-*... other letters added for fun.  HODOR!*
+Hodor hodor hodor persist. Hodor hodor hodor merge.  Hodor hodor hodor delete.  Hodor HODOR!
+
+Hodao takes advantage of Apache TomEE's abstract-bean concept.  The DAO is declared abstract and boilerplate methods can be simply annotated and handled by the framework.  Unlike purely interface-based approaches, this still allows you to use plain Java code for persistence logic that falls outside what the framework handles.
 
 Requires Apache TomEE 1.5.x or newer.
-
-## Description
-
-Hodaor takes advantage of Apache TomEE's abstract-bean concept.  The DAO is declared abstract and boilerplate methods can be simply annotated and handled by the framework.  Unlike purely interface-based approaches, this still allows you to use plain Java code for persistence logic that falls outside what the framework handles.
 
 ## Usage
 
 To use, simply declare your EJB as abstract and implement `java.lang.reflect.InvocationHandler` as follows.
 
 ````
-import org.tomitribe.hodaor.impl.PersistenceHandler;
+import org.tomitribe.hodao.impl.PersistenceHandler;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,26 +37,26 @@ public abstract class BookCrud implements InvocationHandler {
 
 From here you can leverage the following annotations to abstract out common `javax.persistence.EntityManager` boilerplate.
 
-- `org.tomitribe.hodaor.Find`
-- `org.tomitribe.hodaor.Merge`
-- `org.tomitribe.hodaor.Persist`
-- `org.tomitribe.hodaor.Remove`
-- `org.tomitribe.hodaor.NamedQuery`
+- `org.tomitribe.hodao.Find`
+- `org.tomitribe.hodao.Merge`
+- `org.tomitribe.hodao.Persist`
+- `org.tomitribe.hodao.Remove`
+- `org.tomitribe.hodao.NamedQuery`
 
 All of which map to their simple JPA `EntityManager` equivalent.
 
 ### Simple example
 
 ````
-import org.tomitribe.hodaor.Find;
-import org.tomitribe.hodaor.MaxResults;
-import org.tomitribe.hodaor.Merge;
-import org.tomitribe.hodaor.NamedQuery;
-import org.tomitribe.hodaor.Offset;
-import org.tomitribe.hodaor.Optional;
-import org.tomitribe.hodaor.Persist;
-import org.tomitribe.hodaor.QueryParam;
-import org.tomitribe.hodaor.impl.PersistenceHandler;
+import org.tomitribe.hodao.Find;
+import org.tomitribe.hodao.MaxResults;
+import org.tomitribe.hodao.Merge;
+import org.tomitribe.hodao.NamedQuery;
+import org.tomitribe.hodao.Offset;
+import org.tomitribe.hodao.Optional;
+import org.tomitribe.hodao.Persist;
+import org.tomitribe.hodao.QueryParam;
+import org.tomitribe.hodao.impl.PersistenceHandler;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;

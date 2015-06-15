@@ -14,9 +14,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.tomitribe.dao;
+package org.tomitribe.hodao;
 
-import org.tomitribe.dao.impl.PersistenceHandler;
+import org.tomitribe.hodao.impl.PersistenceHandler;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
