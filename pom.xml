@@ -30,7 +30,7 @@
     <version>2</version>
   </parent>
 
-  <artifactId>hodaor</artifactId>
+  <artifactId>dao</artifactId>
   <version>0.5-SNAPSHOT</version>
 
   <properties>

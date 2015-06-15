@@ -14,18 +14,17 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.tomitribe.hodaor;
+package org.tomitribe.dao;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.ejb.ApplicationException;
 
 /**
  * @version $Revision$ $Date$
  */
-@Target(value = ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface MaxResults {
+@ApplicationException(rollback = true)
+public class ValidationException extends RuntimeException {
 
+    public ValidationException(String message) {
+        super(message);
+    }
 }

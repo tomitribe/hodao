@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.tomitribe.hodaor;
+package org.tomitribe.dao;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,8 +26,5 @@ import java.lang.annotation.Target;
  */
 @Target(value = ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NamedQuery {
-    String value();
-
-    boolean update() default false;
+public @interface Find {
 }

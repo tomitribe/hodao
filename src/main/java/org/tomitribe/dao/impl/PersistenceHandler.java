@@ -14,21 +14,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.tomitribe.hodaor.impl;
+package org.tomitribe.dao.impl;
 
-import org.tomitribe.hodaor.Find;
-import org.tomitribe.hodaor.MaxResults;
-import org.tomitribe.hodaor.Merge;
-import org.tomitribe.hodaor.NamedQuery;
-import org.tomitribe.hodaor.Offset;
-import org.tomitribe.hodaor.Optional;
-import org.tomitribe.hodaor.Persist;
-import org.tomitribe.hodaor.QueryParam;
-import org.tomitribe.hodaor.QueryString;
-import org.tomitribe.hodaor.Remove;
-import org.tomitribe.hodaor.ValidationException;
-import org.tomitribe.hodaor.util.Parameter;
-import org.tomitribe.hodaor.util.Reflection;
+import org.tomitribe.dao.Find;
+import org.tomitribe.dao.MaxResults;
+import org.tomitribe.dao.Merge;
+import org.tomitribe.dao.NamedQuery;
+import org.tomitribe.dao.Offset;
+import org.tomitribe.dao.Optional;
+import org.tomitribe.dao.Persist;
+import org.tomitribe.dao.QueryParam;
+import org.tomitribe.dao.QueryString;
+import org.tomitribe.dao.Remove;
+import org.tomitribe.dao.ValidationException;
+import org.tomitribe.dao.util.Parameter;
+import org.tomitribe.dao.util.Reflection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

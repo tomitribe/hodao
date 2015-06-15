@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.tomitribe.hodaor;
+package org.tomitribe.dao;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -24,7 +24,8 @@ import java.lang.annotation.Target;
 /**
  * @version $Revision$ $Date$
  */
-@Target(value = ElementType.METHOD)
+@Target(value = ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Remove {
+public @interface QueryParam {
+    String value();
 }
