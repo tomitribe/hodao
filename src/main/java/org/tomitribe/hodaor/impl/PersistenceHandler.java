@@ -24,6 +24,7 @@ import org.tomitribe.hodaor.Offset;
 import org.tomitribe.hodaor.Optional;
 import org.tomitribe.hodaor.Persist;
 import org.tomitribe.hodaor.QueryParam;
+import org.tomitribe.hodaor.QueryString;
 import org.tomitribe.hodaor.Remove;
 import org.tomitribe.hodaor.ValidationException;
 import org.tomitribe.hodaor.util.Parameter;
@@ -52,6 +53,12 @@ public class PersistenceHandler {
         if (method.isAnnotationPresent(NamedQuery.class)) {
 
             return invokeNamedQuery(em, method, args);
+
+        }
+
+        if (method.isAnnotationPresent(QueryString.class)) {
+
+            return invokeQueryString(em, method, args);
 
         }
 
@@ -147,53 +154,34 @@ public class PersistenceHandler {
      */
     public static Object invokeNamedQuery(final EntityManager em, final Method method, final Object[] args) throws Throwable {
         final NamedQuery namedQuery = method.getAnnotation(NamedQuery.class);
+        final Query query = em.createNamedQuery(namedQuery.value());
 
         if (namedQuery.update()) {
 
-            return update(em, method, args, namedQuery);
+            return update(method, args, query);
 
         } else {
 
-            return select(em, method, args, namedQuery);
+            return select(method, args, query);
         }
     }
 
-    public static Object update(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
+    public static Object invokeQueryString(final EntityManager em, final Method method, final Object[] args) throws Throwable {
+        final QueryString queryString = method.getAnnotation(QueryString.class);
+        final Query query = em.createQuery(queryString.value());
 
-        final Query query = em.createNamedQuery(namedQuery.value());
+        if (queryString.update()) {
 
-        for (final Parameter parameter : Reflection.params(method, args)) {
-            final QueryParam queryParam = parameter.getAnnotation(QueryParam.class);
-            if (queryParam != null) {
-                if (parameter.getValue() == null) {
-                    throw new ValidationException(queryParam.value() + " is null");
-                }
-
-                query.setParameter(queryParam.value(), parameter.getValue());
-            }
-        }
-
-        if (isInt(method.getReturnType())) {
-
-            return query.executeUpdate();
-
-        } else if (isVoid(method.getReturnType())) {
-
-            query.executeUpdate();
-
-            return null;
+            return update(method, args, query);
 
         } else {
 
-            throw new IllegalArgumentException("Update methods must have a void or int return type");
+            return select(method, args, query);
         }
     }
 
-    public static Object select(final EntityManager em, final Method method, final Object[] args, final NamedQuery namedQuery) {
-
+    private static Object select(Method method, Object[] args, Query query) {
         final boolean optional = method.getAnnotation(Optional.class) != null;
-
-        final Query query = em.createNamedQuery(namedQuery.value());
 
         Integer offset = null;
         Integer maxResults = null;
@@ -236,6 +224,34 @@ public class PersistenceHandler {
             }
 
             throw e;
+        }
+    }
+
+    private static Object update(Method method, Object[] args, Query query) {
+        for (final Parameter parameter : Reflection.params(method, args)) {
+            final QueryParam queryParam = parameter.getAnnotation(QueryParam.class);
+            if (queryParam != null) {
+                if (parameter.getValue() == null) {
+                    throw new ValidationException(queryParam.value() + " is null");
+                }
+
+                query.setParameter(queryParam.value(), parameter.getValue());
+            }
+        }
+
+        if (isInt(method.getReturnType())) {
+
+            return query.executeUpdate();
+
+        } else if (isVoid(method.getReturnType())) {
+
+            query.executeUpdate();
+
+            return null;
+
+        } else {
+
+            throw new IllegalArgumentException("Update methods must have a void or int return type");
         }
     }
 

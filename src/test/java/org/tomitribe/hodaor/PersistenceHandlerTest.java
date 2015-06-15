@@ -248,6 +248,27 @@ public class PersistenceHandlerTest {
     }
 
     @Test
+    public void testFinderQuery2() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            final Book book = new Book();
+            book.setAuthor("Author" + (i + 1));
+            book.setTitle("Title" + (i + 1));
+            book.setYear(new Long(1990 + i));
+
+            crud.create(book);
+        }
+
+        final List<Book> findBooksByTitle = crud.findBooksByTitle2("%10", 0, 50);
+        Assert.assertEquals(1, findBooksByTitle.size());
+
+        final Book book = findBooksByTitle.get(0);
+        Assert.assertEquals("Author10", book.getAuthor());
+        Assert.assertEquals("Title10", book.getTitle());
+        Assert.assertNotNull(book.getId());
+        Assert.assertEquals(new Long(1999), book.getYear());
+    }
+
+    @Test
     public void testFindByPrimaryKey() throws Exception {
         Book book1 = new Book();
 

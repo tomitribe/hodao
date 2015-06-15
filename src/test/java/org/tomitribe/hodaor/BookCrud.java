@@ -50,6 +50,13 @@ public abstract class BookCrud implements InvocationHandler {
         @Offset final Integer offset,
         @MaxResults final Integer max);
 
+    @QueryString("select b from Book b where b.title like :title order by b.title asc")
+    @Optional
+    public abstract List<Book> findBooksByTitle2(
+        @QueryParam("title") final String title,
+        @Offset final Integer offset,
+        @MaxResults final Integer max);
+
     @NamedQuery(Book.FIND_ALL)
     @Optional
     public abstract List<Book> findAll(@Offset final Integer offset, @MaxResults final Integer max);
