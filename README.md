@@ -42,6 +42,7 @@ From here you can leverage the following annotations to abstract out common `jav
 - `org.tomitribe.hodao.Persist`
 - `org.tomitribe.hodao.Remove`
 - `org.tomitribe.hodao.NamedQuery`
+- `org.tomitribe.hodao.QueryString`
 
 All of which map to their simple JPA `EntityManager` equivalent.
 
@@ -222,8 +223,6 @@ Valid examples of `@Remove` include:
         return null;
     }
 ````
-
-### @NamedQuery for `Query.getResultList` or  `Query.getSingleResult`
 
 
 
