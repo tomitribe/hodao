@@ -19,13 +19,13 @@ package org.tomitribe.hodao;
 import java.util.List;
 import java.util.Properties;
 
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.transaction.UserTransaction;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.UserTransaction;
 
 import org.apache.openejb.OpenEJB;
 import org.apache.openejb.jee.EjbJar;

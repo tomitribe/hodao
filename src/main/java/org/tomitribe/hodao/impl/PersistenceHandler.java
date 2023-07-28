@@ -30,9 +30,9 @@ import org.tomitribe.hodao.ValidationException;
 import org.tomitribe.hodao.util.Parameter;
 import org.tomitribe.hodao.util.Reflection;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import java.lang.reflect.Method;
 import java.util.Collection;
 

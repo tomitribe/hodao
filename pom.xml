@@ -41,10 +41,10 @@
   </scm>
 
   <properties>
-    <version.java>1.6</version.java>
+    <version.java>11</version.java>
     <version.junit>4.11</version.junit>
-    <version.openejb>4.7.1</version.openejb>
-    <version.openejb.javaee-api>6.0-6</version.openejb.javaee-api>
+    <version.openejb>9.1.0</version.openejb>
+    <version.openejb.javaee-api>9.1.1</version.openejb.javaee-api>
     <version.maven.compiler.plugin>3.1</version.maven.compiler.plugin>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -58,13 +58,13 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.openejb</groupId>
-      <artifactId>javaee-api</artifactId>
+      <groupId>org.apache.tomee</groupId>
+      <artifactId>jakartaee-api</artifactId>
       <version>${version.openejb.javaee-api}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.openejb</groupId>
+      <groupId>org.apache.tomee</groupId>
       <artifactId>openejb-core</artifactId>
       <version>${version.openejb}</version>
       <scope>test</scope>
